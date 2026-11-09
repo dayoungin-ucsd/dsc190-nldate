@@ -1,8 +1,3 @@
-"""
-def main() -> None:
-    print("Hello from nldate!")
-"""
-
 import calendar
 import re
 from datetime import date, timedelta
@@ -101,16 +96,16 @@ def parse(s: str, today: date | None = None) -> date:
     if match:
         month, day, year = map(int, match.groups())
         return date(year, month, day)
-    
+
     # Year-first dates: 2025/12/04
     match = re.fullmatch(r"(\d{4})/(\d{1,2})/(\d{1,2})", s)
     if match:
         year, month, day = map(int, match.groups())
         return date(year, month, day)
 
-    # Month name dates: December 1st, 2025
+    # Month name dates: December 1st, 2025 / Dec. 1, 2025
     match = re.fullmatch(
-        r"([a-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?"
+        r"([a-z]+)\.?\s+(\d{1,2})(?:st|nd|rd|th)?"
         r",?\s*(\d{4})?",
         s,
     )

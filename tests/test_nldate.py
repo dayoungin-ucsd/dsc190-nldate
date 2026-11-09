@@ -95,7 +95,8 @@ def test_two_days_after_next_friday():
 
 
 def test_year_first_slash_date():
-    from datetime import date
-    from nldate import parse
-
     assert parse("2025/12/04") == date(2025, 12, 4)
+
+
+def test_month_abbreviation_with_period():
+    assert parse("Dec. 1, 2025") == date(2025, 12, 1)
