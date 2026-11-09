@@ -92,3 +92,10 @@ def test_two_days_after_next_friday():
         "2 days after next Friday",
         date(2025, 11, 10),
     ) == date(2025, 11, 16)
+
+
+def test_year_first_slash_date():
+    from datetime import date
+    from nldate import parse
+
+    assert parse("2025/12/04") == date(2025, 12, 4)
