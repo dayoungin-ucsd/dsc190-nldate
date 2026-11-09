@@ -111,3 +111,17 @@ def test_combined_offsets_with_and():
         "1 year and 2 months after yesterday",
         today=date(2025, 12, 2),
     ) == date(2027, 2, 1)
+
+
+def test_the_day_after_tomorrow():
+    assert parse(
+        "the day after tomorrow",
+        today=date(2025, 12, 1),
+    ) == date(2025, 12, 3)
+
+
+def test_the_day_before_yesterday():
+    assert parse(
+        "the day before yesterday",
+        today=date(2025, 12, 3),
+    ) == date(2025, 12, 1)
