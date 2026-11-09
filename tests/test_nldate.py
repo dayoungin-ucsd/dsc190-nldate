@@ -100,3 +100,14 @@ def test_year_first_slash_date():
 
 def test_month_abbreviation_with_period():
     assert parse("Dec. 1, 2025") == date(2025, 12, 1)
+
+
+def test_combined_offsets_with_comma():
+    assert parse("2 years, 3 months before Dec. 1, 2025") == date(2023, 9, 1)
+
+
+def test_combined_offsets_with_and():
+    assert parse(
+        "1 year and 2 months after yesterday",
+        today=date(2025, 12, 2),
+    ) == date(2027, 2, 1)

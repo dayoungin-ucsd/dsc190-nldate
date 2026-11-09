@@ -217,6 +217,33 @@ def parse(s: str, today: date | None = None) -> date:
         unit = match.group(2)
         return _apply_offset(today, amount, unit)
 
+    # Combined offsets:
+    # 2 years, 3 months before Dec. 1, 2025
+    # 1 year and 2 months after yesterday
+    match = re.fullmatch(
+        rf"{number_pattern}\s+{unit_pattern}"
+        rf"\s*(?:,\s*|\s+and\s+)"
+        rf"{number_pattern}\s+{unit_pattern}"
+        r"\s+(before|after|from)\s+(.+)",
+        s,
+    )
+
+    if match:
+        amount1 = _number(match.group(1))
+        unit1 = match.group(2)
+        amount2 = _number(match.group(3))
+        unit2 = match.group(4)
+        direction = match.group(5)
+        reference = match.group(6)
+
+        base = parse(reference, today)
+        sign = -1 if direction == "before" else 1
+
+        base = _apply_offset(base, sign * amount1, unit1)
+        base = _apply_offset(base, sign * amount2, unit2)
+
+        return base
+
     # 5 days before December 1st, 2025
     # 2 weeks after tomorrow
     match = re.fullmatch(
